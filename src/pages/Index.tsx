@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,6 +8,7 @@ import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('main');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -34,6 +36,7 @@ const Index = () => {
                 { id: 'about', label: 'О центре', icon: 'Building2' },
                 { id: 'department', label: 'Отдел АСУ', icon: 'Computer' },
                 { id: 'team', label: 'Команда', icon: 'Users' },
+                { id: 'gallery', label: 'Галерея', icon: 'Image' },
                 { id: 'contact', label: 'Контакты', icon: 'Mail' }
               ].map((item) => (
                 <button
@@ -259,6 +262,60 @@ const Index = () => {
           </div>
         </section>
 
+        <section id="gallery" className="py-20 px-4 bg-white">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-12 animate-fade-in">
+              <h2 className="font-heading font-bold text-3xl md:text-4xl text-foreground mb-4">
+                Галерея
+              </h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Наше оборудование и рабочие процессы отдела АСУ
+              </p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  src: '/img/98b6185d-71cb-4669-a47a-23047602fa57.jpg',
+                  title: 'Серверная инфраструктура',
+                  description: 'Современное серверное оборудование центра'
+                },
+                {
+                  src: '/img/edd4f836-2ffa-4737-9b99-0d144104e82b.jpg',
+                  title: 'Рабочий процесс',
+                  description: 'Специалисты отдела за работой'
+                },
+                {
+                  src: '/img/8d264663-cdc1-4e2f-8766-84987bc7db72.jpg',
+                  title: 'Системы мониторинга',
+                  description: 'Медицинские информационные системы'
+                }
+              ].map((image, idx) => (
+                <Card 
+                  key={idx} 
+                  className="animate-fade-in hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden group" 
+                  style={{ animationDelay: `${idx * 0.1}s` }}
+                  onClick={() => setSelectedImage(image.src)}
+                >
+                  <div className="relative overflow-hidden">
+                    <img 
+                      src={image.src} 
+                      alt={image.title}
+                      className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                      <Icon name="ZoomIn" className="text-white" size={24} />
+                    </div>
+                  </div>
+                  <CardHeader>
+                    <CardTitle className="font-heading text-lg">{image.title}</CardTitle>
+                    <CardDescription>{image.description}</CardDescription>
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="contact" className="py-20 px-4 bg-gradient-to-b from-secondary to-white">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center mb-12 animate-fade-in">
@@ -363,10 +420,16 @@ const Index = () => {
             <div>
               <h3 className="font-heading font-bold text-lg mb-4">Быстрые ссылки</h3>
               <ul className="space-y-2 text-sm">
-                {['Главная', 'О центре', 'Отдел АСУ', 'Команда', 'Контакты'].map((link) => (
+                {['Главная', 'О центре', 'Отдел АСУ', 'Команда', 'Галерея', 'Контакты'].map((link) => (
                   <li key={link}>
                     <button 
-                      onClick={() => scrollToSection(link === 'Главная' ? 'main' : link === 'О центре' ? 'about' : link === 'Отдел АСУ' ? 'department' : link === 'Команда' ? 'team' : 'contact')}
+                      onClick={() => scrollToSection(
+                        link === 'Главная' ? 'main' : 
+                        link === 'О центре' ? 'about' : 
+                        link === 'Отдел АСУ' ? 'department' : 
+                        link === 'Команда' ? 'team' : 
+                        link === 'Галерея' ? 'gallery' : 'contact'
+                      )}
                       className="text-gray-300 hover:text-white transition-colors"
                     >
                       {link}
@@ -386,6 +449,18 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+        <DialogContent className="max-w-4xl p-0">
+          {selectedImage && (
+            <img 
+              src={selectedImage} 
+              alt="Просмотр изображения"
+              className="w-full h-auto rounded-lg"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
