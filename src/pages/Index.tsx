@@ -83,8 +83,8 @@ const Index = () => {
                 <div className="relative">
                   <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-cyan-500/20 rounded-2xl blur-2xl"></div>
                   <img 
-                    src="https://v3.fal.media/files/elephant/XaGl1R89YjJpIO349RZEe_output.png" 
-                    alt="Медицинский центр"
+                    src="https://cdn.poehali.dev/files/90dba894-7c99-4b47-9d36-e4abe9dfa237.png" 
+                    alt="Автоматизированные системы управления"
                     className="relative rounded-2xl shadow-2xl w-full"
                   />
                 </div>
