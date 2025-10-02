@@ -337,7 +337,7 @@ const Index = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground">
-                      г. Оренбург, ул. Салмышская, д. 52
+                      г. Оренбург, проспект Гагарина, д. 27А
                     </p>
                   </CardContent>
                 </Card>
